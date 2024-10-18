@@ -2,10 +2,6 @@
 
 import unittest
 
-
-def twiceNumber(a):
-    return a/2 
-
 class TestNum(unittest.TestCase):
 
     def testDouble(self):
