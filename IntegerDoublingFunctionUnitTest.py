@@ -1,5 +1,5 @@
 # Integer Doubling Function Unit Test
-
+from IntegerDoublingFunction import twiceNumber
 import unittest
 
 class TestNum(unittest.TestCase):
