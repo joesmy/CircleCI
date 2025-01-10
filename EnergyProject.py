@@ -62,6 +62,7 @@ for i, Country in enumerate(TopCountries):
 for j in range(len(TopCountries), len(axes)):
     fig.delaxes(axes[j])
 
+fig.suptitle("Renewable Energy vs CO2 Emissions- Top 4 Renewable Energy Producing Countries", fontsize=16)
 plt.tight_layout()
 plt.show()
 
@@ -139,13 +140,12 @@ IncomeGroups = [
     "Low-income countries"
 ]
 
-# Aggregate data by income group
+# Find renewable energy vs co2 for income grouped countries
 IncomeGroupsDS = MergeDF[MergeDF["Income Group"].isin(IncomeGroups)]
 AggregatedData = IncomeGroupsDS.groupby(["Income Group", "Year"])[
     ["Total Renewable Energy - TWh", "Annual CO₂ emissions"]
 ].sum().reset_index()
 
-# Plot aggregated data
 fig, axes = plt.subplots(2, 2, figsize=(15, 10), sharey=False)
 axes = axes.flatten()
 
@@ -169,6 +169,58 @@ for i, IncomeGroup in enumerate(IncomeGroups):
 for j in range(len(IncomeGroups), len(axes)):
     fig.delaxes(axes[j])
 
+fig.suptitle("Renewable Energy vs CO2 Emissions by Income Group", fontsize=16)
 plt.tight_layout()
 plt.show()
 
+
+
+
+# Pie Chart to show renewable energy sources in 2000, 2010, 2020
+
+# Filter data for the years 2000, 2010, and 2020
+selected_years = [2000, 2010, 2020]
+filtered_data = MergeDF[MergeDF["Year"].isin(selected_years)]
+
+# Group by year and aggregate the total renewable energy by source
+aggregated_data = filtered_data.groupby("Year")[[
+    "Electricity from wind - TWh", 
+    "Electricity from hydro - TWh", 
+    "Electricity from solar - TWh", 
+    "Other renewables including bioenergy - TWh"
+]].sum()
+
+categories = [
+    "Electricity from hydro - TWh", 
+    "Electricity from wind - TWh", 
+    "Electricity from solar - TWh", 
+    "Other renewables including bioenergy - TWh"
+]
+colors = ['orange', 'blue', 'green', 'red']
+
+
+# Plot pie charts
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+
+for i, year in enumerate(selected_years):
+    year_data = aggregated_data.loc[year]
+    axes[i].pie(
+        year_data, 
+        labels=None, 
+        autopct='%1.1f%%', 
+        startangle=140,
+        colors=colors
+    )
+    axes[i].set_title(f"Proportion of Renewable Energy Types in {year}")
+
+fig.legend(
+    labels=categories, 
+    loc='upper center', 
+    bbox_to_anchor=(0.5, 0.05),  # Adjust position of the legend
+    ncol=4,  # Arrange the categories in a single row
+    fontsize='medium'
+)
+
+fig.suptitle("Global Renewable Energy Composition (2000, 2010, 2020)", fontsize=16)
+plt.tight_layout(rect=[0, 0.15, 1, 0.9])
+plt.show()
