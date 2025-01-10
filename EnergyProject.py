@@ -221,6 +221,6 @@ fig.legend(
     fontsize='medium'
 )
 
-fig.suptitle("Global Renewable Energy Composition (2000, 2010, 2020)", fontsize=16)
+fig.suptitle("Global Renewable Energy Composition (2000, 2010, 2020) in Terrawatt hours (TWh)", fontsize=16)
 plt.tight_layout(rect=[0, 0.15, 1, 0.9])
 plt.show()
